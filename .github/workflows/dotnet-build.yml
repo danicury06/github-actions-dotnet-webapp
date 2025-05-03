@@ -1,0 +1,29 @@
+name: Build e Testar Projeto .NET
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fazer checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar o .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'  # Altere se estiver usando outra versão
+
+      - name: Restaurar dependências
+        run: dotnet restore
+
+      - name: Compilar o projeto
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Rodar testes
+        run: dotnet test --no-build --verbosity normal
